@@ -1,21 +1,29 @@
-# 1. User enter Amazon product ASIN
+import streamlit as st
 
-# 2. Scrape product details from Amazon
 
-# 3. Store procut in local database
+def render_header():
+    st.title("TITULO DO STREAMLIT")
+    st.caption("Enter your ASIN to get product insights")
 
-# 4. User clicks "Start competitor analysis"
 
-# 5. Search for similar procuts on Amazon
+def render_inputs():
+    asin = st.text_input("ASIN", placeholder="e.g. EXAMPLE DE ASIN")
+    geo = st.text_input("zip/P")
+    domain = st.selectbox("Domain", ["com", "ca..."])
+    return asin.strip(), geo.strip(), domain
 
-# 6. Scrape details for all competitors found
 
-# 7. Store competitors linked original product
+def main():
+    st.set_page_config(page_title="Titulo da pagina", page_icon="ICONE")
+    render_header()
+    asin, geo, domain = render_inputs()
 
-# 8. User clicks "Analyze with LLM"
+    if st.button("Scrape Product") and asin:
+        with st.spinner("Scrapping product"):
+            st.write("Scrape")
+            # TODO: scrape product
+        st.success("Product scraped successfully")
 
-# 9. Sendo product + competitors to AI
 
-# 10. Get competitive analysis report
-
-# 11. Display results to user
+if __name__ == "__main__":
+    main()
