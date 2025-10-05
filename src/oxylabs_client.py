@@ -7,7 +7,23 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-OXYLABS_BASE_URL = "URL"
+OXYLABS_BASE_URL = "https://realtime.oxylabs.io/v1/queries"
+
+
+def extract_content(payload):
+    if isinstance(payload, dict):
+        if (
+            "results" in payload
+            and isinstance(payload["results"], list)
+            and payload["results"]
+        ):
+            first = payload["results"][0]
+            if isinstance(first, dict) and "content" in first:
+                return first["content"] or {}
+        if "content" in payload:
+            return payload.get("content", {})
+
+    return payload
 
 
 def post_query(payload):
@@ -19,20 +35,6 @@ def post_query(payload):
     response_json = response.json()
 
     return response_json
-
-
-def extract_content(payload):
-    if isinstance(payload, dict):
-        if (
-            "results" in payload
-            and isinstance(payload["results"], list)
-            and payload["results"]
-        ):
-            first = payload["reulsts"][0]
-            if isinstance(first, dict) and "content" in first:
-                return first["content"] or {}
-        if "content" in payload:
-            return payload.get("content", {})
 
 
 def normalize_product(content):
